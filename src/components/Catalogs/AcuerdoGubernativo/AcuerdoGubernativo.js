@@ -9,7 +9,7 @@ import {
     EditarAcuerdoGubernativo,
     EliminarAcuerdoGubernativo,
     EstadoAcuerdoGubernativo
-} from '../../../services/acuerdoGubernativo';
+} from '../../../services/Catalogos/acuerdoGubernativo';
 import ModalForm from './components/ModalForm';
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

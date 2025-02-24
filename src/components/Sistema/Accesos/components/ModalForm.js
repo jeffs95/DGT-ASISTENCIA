@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Modal, Button, Form, Row, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { FiCamera } from "react-icons/fi";
 import { reactLocalStorage } from "reactjs-localstorage";
-import { getListaIngreso } from "../../../../services/ingreso";
+import { getListaIngreso } from "../../../../services/Catalogos/ingreso";
 
 const ModalForm = ({ show, handleClose, handleCreateAcceso }) => {
   const [cui, setCui] = useState("");

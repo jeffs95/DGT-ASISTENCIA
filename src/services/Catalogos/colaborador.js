@@ -1,4 +1,4 @@
-import axiosInstance from '../axiosConfig';
+import axiosInstance from '../../axiosConfig';
 import { reactLocalStorage } from 'reactjs-localstorage';
 
 export const getAllColaborador = async () => {

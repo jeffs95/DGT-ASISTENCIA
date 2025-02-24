@@ -1,5 +1,5 @@
 import { reactLocalStorage } from 'reactjs-localstorage';
-import axiosInstance from '../axiosConfig';
+import axiosInstance from '../../axiosConfig';
 
 export const getListaIngreso = async () => {
     try {

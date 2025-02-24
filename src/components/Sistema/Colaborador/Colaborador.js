@@ -8,7 +8,7 @@ import {
   setColaborador,
   updateColaborador,
   EstadoColaborador,
-} from "../../../services/colaborador";
+} from "../../../services/Catalogos/colaborador";
 import AgregarColaborador from "./components/AgregarColaborador";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

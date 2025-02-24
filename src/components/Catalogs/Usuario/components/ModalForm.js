@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
-import { getAllColaborador } from "../../../../services/colaborador";
+import { getAllColaborador } from "../../../../services/Catalogos/colaborador";
 
 const ModalForm = ({ show, handleClose, idUsuario, usuarioData, onSubmit }) => {
   const [colaboradores, setColaboradores] = useState([]);

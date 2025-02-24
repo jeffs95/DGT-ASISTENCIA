@@ -3,7 +3,7 @@ import { FaEdit } from 'react-icons/fa';
 import NavbarComponent from '../../NavbarComponent';
 import { Container, Button } from 'react-bootstrap';
 import DataTable from 'react-data-table-component';
-import { getListaIngreso, crearIngreso, EditarIngreso} from '../../../services/ingreso';
+import { getListaIngreso, crearIngreso, EditarIngreso} from '../../../services/Catalogos/ingreso';
 import ModalForm from './components/ModalForm';
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

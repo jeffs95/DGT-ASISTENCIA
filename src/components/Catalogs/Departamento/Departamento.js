@@ -8,7 +8,7 @@ import {
     crearDepartamento,
     EditarDepartamento,
     EliminarDepartamento,
-} from '../../../services/departamento';
+} from '../../../services/Catalogos/departamento';
 import ModalForm from './components/ModalForm';
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

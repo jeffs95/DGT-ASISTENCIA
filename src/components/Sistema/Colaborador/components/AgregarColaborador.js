@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Modal, Button, Form, Alert } from "react-bootstrap";
-import { getListaDepartamento } from "../../../../services/departamento";
+import { getListaDepartamento } from "../../../../services/Catalogos/departamento";
 
 const AgregarColaborador = ({
   show,
