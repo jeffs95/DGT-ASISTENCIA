@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Button, Form, Row, Col } from "react-bootstrap";
+import { Modal, Button, Form, Row, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { FiCamera } from "react-icons/fi";
 import { reactLocalStorage } from "reactjs-localstorage";
 import { getListaIngreso } from "../../../../services/ingreso";
@@ -13,7 +13,7 @@ const ModalForm = ({ show, handleClose, handleCreateAcceso }) => {
   const [ingresos, setIngresos] = useState([]);
   const [esExtranjero, setEsExtranjero] = useState(false);
   const [pasaporte, setPasaporte] = useState("");
-  
+
   useEffect(() => {
     const fetchIngresos = async () => {
       try {
@@ -51,10 +51,11 @@ const ModalForm = ({ show, handleClose, handleCreateAcceso }) => {
       !dpiFrontal ||
       !dpiTrasera
     ) {
-      alert("Todos los campos son obligatorios, incluyendo las fotos del documento de identidad");
+      alert(
+        "Todos los campos son obligatorios, incluyendo las fotos del documento de identidad"
+      );
       return;
     }
-    
 
     const storedData = reactLocalStorage.getObject("id");
     const idUser = storedData.user_id;
@@ -68,7 +69,6 @@ const ModalForm = ({ show, handleClose, handleCreateAcceso }) => {
       ingreso_id: ingresoId,
       dpi_base64: [dpiFrontal, dpiTrasera],
     };
-    
 
     handleCreateAcceso(accesoData);
 
@@ -116,30 +116,36 @@ const ModalForm = ({ show, handleClose, handleCreateAcceso }) => {
             />
           </Form.Group>
           {!esExtranjero ? (
-  <Form.Group controlId="formCUI">
-    <Form.Label>
-      Código Único de Identificación (CUI) del Visitante <span style={{ color: "red" }}>*</span>
-    </Form.Label>
-    <Form.Control
-      type="text"
-      value={cui}
-      onChange={(e) => setCui(e.target.value)}
-      disabled={esExtranjero}
-    />
-  </Form.Group>
-) : (
-  <Form.Group controlId="formPasaporte">
-    <Form.Label>
-      Pasaporte <span style={{ color: "red" }}>*</span>
-    </Form.Label>
-    <Form.Control
-      type="text"
-      value={pasaporte}
-      onChange={(e) => setPasaporte(e.target.value)}
-      disabled={!esExtranjero}
-    />
-  </Form.Group>
-)}
+            <Form.Group controlId="formCUI">
+              <Form.Label>
+                Código Único de Identificación (CUI) del Visitante{" "}
+                <span style={{ color: "red" }}>*</span>
+              </Form.Label>
+              <Form.Control
+                type="text"
+                value={cui}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  if (/^\d{0,13}$/.test(value)) {
+                    setCui(value);
+                  }
+                }}
+                disabled={esExtranjero}
+              />
+            </Form.Group>
+          ) : (
+            <Form.Group controlId="formPasaporte">
+              <Form.Label>
+                Pasaporte <span style={{ color: "red" }}>*</span>
+              </Form.Label>
+              <Form.Control
+                type="text"
+                value={pasaporte}
+                onChange={(e) => setPasaporte(e.target.value)}
+                disabled={!esExtranjero}
+              />
+            </Form.Group>
+          )}
 
           <Form.Group controlId="formEsExtranjero">
             <Form.Check
@@ -150,12 +156,17 @@ const ModalForm = ({ show, handleClose, handleCreateAcceso }) => {
             />
           </Form.Group>
 
-
           <Row className="mb-3">
             <Col md={6}>
               <Form.Group controlId="formDpiFrontal">
                 <Form.Label>
-                  Foto Frontal del Documento <span style={{ color: "red" }}>*</span>
+                  Foto Anverso del Documento{" "}
+                  <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip>Ejemplo: Foto del frente del documento de identidad</Tooltip>}
+                  >
+                  <span style={{ color: "red" }}>*</span>
+                  </OverlayTrigger>
                 </Form.Label>
                 <div
                   className="dpi-box"
@@ -166,7 +177,9 @@ const ModalForm = ({ show, handleClose, handleCreateAcceso }) => {
                     cursor: "pointer",
                     marginBottom: "15px",
                   }}
-                  onClick={() => document.getElementById("dpiFrontalUpload").click()}
+                  onClick={() =>
+                    document.getElementById("dpiFrontalUpload").click()
+                  }
                 >
                   {dpiFrontal ? (
                     <img
@@ -182,7 +195,7 @@ const ModalForm = ({ show, handleClose, handleCreateAcceso }) => {
                   ) : (
                     <div>
                       <FiCamera size={40} />
-                      <p>Haz clic para tomar foto frontal</p>
+                      <p>Haz clic para tomar foto Anverso</p>
                     </div>
                   )}
                   <input
@@ -200,7 +213,13 @@ const ModalForm = ({ show, handleClose, handleCreateAcceso }) => {
             <Col md={6}>
               <Form.Group controlId="formDpiTrasera">
                 <Form.Label>
-                  Foto Trasera del Documento <span style={{ color: "red" }}>*</span>
+                  Foto Reverso del Documento{" "}
+                  <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip>Ejemplo: Foto del frente del documento de identidad</Tooltip>}
+                  >
+                  <span style={{ color: "red" }}>*</span>
+                  </OverlayTrigger>
                 </Form.Label>
                 <div
                   className="dpi-box"
@@ -210,7 +229,9 @@ const ModalForm = ({ show, handleClose, handleCreateAcceso }) => {
                     textAlign: "center",
                     cursor: "pointer",
                   }}
-                  onClick={() => document.getElementById("dpiTraseraUpload").click()}
+                  onClick={() =>
+                    document.getElementById("dpiTraseraUpload").click()
+                  }
                 >
                   {dpiTrasera ? (
                     <img
@@ -226,7 +247,7 @@ const ModalForm = ({ show, handleClose, handleCreateAcceso }) => {
                   ) : (
                     <div>
                       <FiCamera size={40} />
-                      <p>Haz clic para tomar foto trasera</p>
+                      <p>Haz clic para tomar foto Reverso</p>
                     </div>
                   )}
                   <input
