@@ -22,6 +22,7 @@ const Home = () => {
   const [searchText, setSearchText] = useState("");
   const location = useLocation();
   const today = moment().format("YYYY-MM-DD");
+  const [loading, setLoading] = useState(true); // Estado de carga
 
   const [faltanIngreso, setFaltanIngreso] = useState(0);
   const [faltanEgreso, setFaltanEgreso] = useState(0);
@@ -47,6 +48,7 @@ const Home = () => {
   };
 
   useEffect(() => {
+    if (loading) return; // Solo filtra si no está cargando
     const filtered = data.filter((row) => {
       const nombreCompleto = row.colaborador.nombre ? row.colaborador.nombre.toLowerCase() : '';
       const apellido = row.colaborador.apellido ? row.colaborador.apellido.toLowerCase() : '';
@@ -60,14 +62,14 @@ const Home = () => {
     });
   
     setFilteredData(filtered);
-  }, [searchText, data]);  
-
+  }, [searchText, data, loading]); 
   const fetchData = async () => {
     try {
+      setLoading(true); // Indicamos que la carga está en proceso
       const response = await getAsistenciaHoy();
       setData(response.data);
       setFilteredData(response.data);
-
+  
       if (response.data.length === 0) {
         await crearListaAsistencia();
         const newResponse = await getAsistenciaHoy();
@@ -76,6 +78,8 @@ const Home = () => {
       }
     } catch (error) {
       console.error("Error al obtener las asistencias:", error);
+    } finally {
+      setLoading(false); // Desactivamos el estado de carga
     }
   };
 
@@ -95,19 +99,21 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
+    if (loading || !filteredData.length) return;
+  
     const ingresoPendiente = filteredData.filter(
       (row) =>
         !row.fecha_ingreso &&
         moment(row.created_at).format("YYYY-MM-DD") === today
     ).length;
-
+  
     const egresoPendiente = filteredData.filter(
       (row) => row.fecha_ingreso && !row.fecha_egreso
     ).length;
-
+  
     setFaltanIngreso(ingresoPendiente);
     setFaltanEgreso(egresoPendiente);
-  }, [filteredData, today]);
+  }, [filteredData, today, loading]);
 
   const handleAsistencia = async (row, tipo) => {
     setLoadingAccion(row.id);
