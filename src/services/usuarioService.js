@@ -64,7 +64,7 @@ export const updateUsuario = async (id, params) => {
     }
 };
 
-export const updateContraseña = async (id, params) => {
+export const updateContraseña = async (id, password) => {
     try {
         const storedData = reactLocalStorage.getObject('var');
         const accessToken = storedData.access_token;
@@ -74,7 +74,7 @@ export const updateContraseña = async (id, params) => {
             },
         };
 
-        const response = await axiosInstance.patch(`/api/usuario/${id}/password`, params, config);
+        const response = await axiosInstance.patch(`/api/usuario/${id}/password`, {password}, config);
         return response.data;
     } catch (error) {
         console.error('[ERROR] >', error.message);

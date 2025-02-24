@@ -14,6 +14,7 @@ import Unidad from './components/Catalogs/Unidad/unidad';
 import AcuerdoGubernativo from './components/Catalogs/AcuerdoGubernativo/AcuerdoGubernativo';
 import AcuerdoMinisterial from './components/Catalogs/AcuerdoMinisterial/AcuerdoMinisterial';
 import Unauthorized from './components/Unauthorized'; 
+import Departamento from './components/Catalogs/Departamento/Departamento'; 
 
 const RouteChangeHandler = ({ children }) => {
     const { loading, setLoading } = useLoading();
@@ -49,6 +50,7 @@ function App() {
                         <Route path="/home" element={<ProtectedRoute element={<Home />} />} />
                         <Route path="/colaborador" element={<ProtectedRoute element={<Colaborador />} />} />
                         <Route path="/usuario" element={<ProtectedRoute element={<Usuario />} />} />
+                        <Route path="/departamento" element={<ProtectedRoute element={<Departamento />} />} />
                     </Routes>
                 </RouteChangeHandler>
             </Router>

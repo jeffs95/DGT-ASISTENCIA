@@ -11,7 +11,9 @@ const ModalForm = ({ show, handleClose, handleCreateAcceso }) => {
   const [dpiFrontal, setDpiFrontal] = useState(null);
   const [dpiTrasera, setDpiTrasera] = useState(null);
   const [ingresos, setIngresos] = useState([]);
-
+  const [esExtranjero, setEsExtranjero] = useState(false);
+  const [pasaporte, setPasaporte] = useState("");
+  
   useEffect(() => {
     const fetchIngresos = async () => {
       try {
@@ -41,21 +43,32 @@ const ModalForm = ({ show, handleClose, handleCreateAcceso }) => {
   };
 
   const handleSubmit = () => {
-    if (!cui || !nombreCompleto || !ingresoId || !dpiFrontal || !dpiTrasera) {
-      alert("Todos los campos son obligatorios, incluyendo las fotos del DPI");
+    if (
+      (!esExtranjero && !cui) ||
+      (esExtranjero && !pasaporte) ||
+      !nombreCompleto ||
+      !ingresoId ||
+      !dpiFrontal ||
+      !dpiTrasera
+    ) {
+      alert("Todos los campos son obligatorios, incluyendo las fotos del documento de identidad");
       return;
     }
+    
 
     const storedData = reactLocalStorage.getObject("id");
     const idUser = storedData.user_id;
 
     const accesoData = {
       usuario_id: idUser,
-      cui,
+      cui: esExtranjero ? null : cui,
+      pasaporte: esExtranjero ? pasaporte : null,
+      es_extranjero: esExtranjero,
       nombre_completo: nombreCompleto,
       ingreso_id: ingresoId,
       dpi_base64: [dpiFrontal, dpiTrasera],
     };
+    
 
     handleCreateAcceso(accesoData);
 
@@ -102,20 +115,43 @@ const ModalForm = ({ show, handleClose, handleCreateAcceso }) => {
               onChange={(e) => setNombreCompleto(e.target.value)}
             />
           </Form.Group>
-          <Form.Group controlId="formCUI">
-            <Form.Label>
-              Código Único de Identificación (CUI) del Visitante <span style={{ color: "red" }}>*</span>
-            </Form.Label>
-            <Form.Control
-              type="text"
-              value={cui}
-              onChange={(e) => setCui(e.target.value)}
+          {!esExtranjero ? (
+  <Form.Group controlId="formCUI">
+    <Form.Label>
+      Código Único de Identificación (CUI) del Visitante <span style={{ color: "red" }}>*</span>
+    </Form.Label>
+    <Form.Control
+      type="text"
+      value={cui}
+      onChange={(e) => setCui(e.target.value)}
+      disabled={esExtranjero}
+    />
+  </Form.Group>
+) : (
+  <Form.Group controlId="formPasaporte">
+    <Form.Label>
+      Pasaporte <span style={{ color: "red" }}>*</span>
+    </Form.Label>
+    <Form.Control
+      type="text"
+      value={pasaporte}
+      onChange={(e) => setPasaporte(e.target.value)}
+      disabled={!esExtranjero}
+    />
+  </Form.Group>
+)}
+
+          <Form.Group controlId="formEsExtranjero">
+            <Form.Check
+              type="checkbox"
+              label="¿Es extranjero?"
+              checked={esExtranjero}
+              onChange={(e) => setEsExtranjero(e.target.checked)}
             />
           </Form.Group>
 
-          {/* Fila con Foto Frontal y Foto Trasera */}
+
           <Row className="mb-3">
-            {/* Cuadro para Foto Frontal */}
             <Col md={6}>
               <Form.Group controlId="formDpiFrontal">
                 <Form.Label>
@@ -161,7 +197,6 @@ const ModalForm = ({ show, handleClose, handleCreateAcceso }) => {
               </Form.Group>
             </Col>
 
-            {/* Cuadro para Foto Trasera */}
             <Col md={6}>
               <Form.Group controlId="formDpiTrasera">
                 <Form.Label>

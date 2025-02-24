@@ -1,5 +1,5 @@
 import React from 'react';
-import { Offcanvas, Nav, Dropdown, Button } from 'react-bootstrap';
+import { Offcanvas, Nav, Dropdown } from 'react-bootstrap';
 import { FaHome, FaUsers, FaUserTie, FaUserCog, FaSignInAlt, FaHandHoldingUsd, FaRegHandshake, FaRegBuilding } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { useSidebar } from '../../context/SidebarContext';

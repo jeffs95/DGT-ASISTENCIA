@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { FaEdit } from 'react-icons/fa';
+import { FaEdit, FaKey } from 'react-icons/fa';
 import NavbarComponent from '../../NavbarComponent';
 import { Container, Button } from 'react-bootstrap';
 import DataTable from 'react-data-table-component';
-import { getAllUsuario, setUsuario, updateUsuario } from '../../../services/usuarioService';
 import ModalForm from './components/ModalForm';
+import ModalUpdatePassword from './components/ModalUpdatePassword';
 import { Bounce, ToastContainer, toast } from 'react-toastify';
+import { getAllUsuario, setUsuario, updateUsuario } from '../../../services/usuarioService';
 
 const Usuario = () => {
     const [data, setData] = useState([]);
@@ -13,6 +14,7 @@ const Usuario = () => {
     const [searchText, setSearchText] = useState('');
     const [showModal, setShowModal] = useState(false);
     const [selectedUsuario, setSelectedUsuario] = useState(null);
+    const [showPasswordModal, setShowPasswordModal] = useState(false);
 
     useEffect(() => {
         fetchData();
@@ -31,6 +33,17 @@ const Usuario = () => {
     const handleOpenModal = (usuario = null) => {
         setSelectedUsuario(usuario);
         setShowModal(true);
+    };
+
+    const handleOpenPasswordModal = (usuario) => {
+        setSelectedUsuario(usuario);
+        setShowPasswordModal(true);
+    };
+
+
+    const handleClosePasswordModal = () => {
+        setSelectedUsuario(null);
+        setShowPasswordModal(false);
     };
 
     const handleCloseModal = () => {
@@ -80,6 +93,8 @@ const Usuario = () => {
             item.nombre_completo.toLowerCase().includes(value) ||
             item.email.toLowerCase().includes(value)
         );
+        console.log(filtered);
+        
         setFilteredData(filtered);
     };
 
@@ -114,6 +129,14 @@ const Usuario = () => {
                         style={{ color: 'black', fontSize: '20px', padding: '5px' }}
                     >
                         <FaEdit />
+                    </Button>
+                    <Button
+                        variant="link"
+                        size="sm"
+                        onClick={() => handleOpenPasswordModal(row)}
+                        style={{ color: 'black', fontSize: '20px', padding: '5px' }}
+                    >
+                        <FaKey />
                     </Button>
                 </>
             ),
@@ -194,7 +217,7 @@ const Usuario = () => {
                     </div>
 
                     <Button variant="primary" onClick={handleOpenModal}>
-                        Agregar Registro
+                        Agregar un nuevo registro
                     </Button>
 
                     <DataTable
@@ -225,6 +248,12 @@ const Usuario = () => {
                         idUsuario={selectedUsuario?.id || null}
                         usuarioData={selectedUsuario}
                         onSubmit={handleSubmitUsuario}
+                    />
+
+                    <ModalUpdatePassword
+                        show={showPasswordModal}
+                        handleClose={handleClosePasswordModal}
+                        idUsuario={selectedUsuario?.id || null}
                     />
                 </Container>
             </div>

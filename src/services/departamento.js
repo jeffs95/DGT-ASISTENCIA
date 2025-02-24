@@ -1,7 +1,7 @@
-import axiosInstance from '../axiosConfig';
 import { reactLocalStorage } from 'reactjs-localstorage';
+import axiosInstance from '../axiosConfig';
 
-export const getAllColaborador = async () => {
+export const getListaDepartamento = async () => {
     try {
         const storedData = reactLocalStorage.getObject('var');
         const accessToken = storedData.access_token;
@@ -11,69 +11,32 @@ export const getAllColaborador = async () => {
             },
         };
 
-        const response = await axiosInstance.get('/api/colaborador', config);
+        const response = await axiosInstance.get('/api/departamento', config);        
         return response.data;
-    } catch (error) {
-        console.error('[ERROR] >', error.message);
-        throw new Error('Error al obtener colaboradores');
-    }
-};
-
-export const setColaborador = async (params) => {
-    try {
-        const storedData = reactLocalStorage.getObject('var');
-        const accessToken = storedData.access_token;
-        const config = {
-            headers: {
-                Authorization: `Bearer ${accessToken}`,
-            },
-        };
-
-        const response = await axiosInstance.post('/api/colaborador', params, config);
-        return response.data;
-    } catch (error) {
-        console.error('[ERROR] >', error.message);
-        throw new Error('Error al obtener colaboradores');
-    }
-};
-
-export const updateColaborador = async (id, params) => {
-    try {
-        const storedData = reactLocalStorage.getObject('var');
-        const accessToken = storedData.access_token;
-        const config = {
-            headers: {
-                Authorization: `Bearer ${accessToken}`,
-            },
-        };
-
-        const response = await axiosInstance.put(`/api/colaborador/${id}`, params, config);
-        return response.data;
-    } catch (error) {
-        console.error('[ERROR] >', error.message);
-        throw new Error('Error al obtener colaboradores');
-    }
-};
-
-export const inactivarColaborador = async (id) => {
-    try {
-        await axiosInstance.put(`/colaborador/inactivar/${id}`)
     } catch (error) {
         console.log('[ERROR] >', error);
-        
     }
 };
 
-export const activarColaborador = async (id) => {
+export const crearDepartamento = async (params) => {
     try {
-        await axiosInstance.put(`/colaborador/activar/${id}`)
+        const storedData = reactLocalStorage.getObject('var');
+        const accessToken = storedData.access_token;
+        const config = {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        };
+        console.log('[DATA], ', params);
+        
+        const response = await axiosInstance.post('/api/departamento', params, config);
+        return response.data;                    
     } catch (error) {
         console.log('[ERROR] >', error);
-        
     }
 };
 
-export const EstadoColaborador = async (id) => {
+export const EditarDepartamento = async (id, data) => {
     try {
         const storedData = reactLocalStorage.getObject('var');
         const accessToken = storedData.access_token;
@@ -83,7 +46,41 @@ export const EstadoColaborador = async (id) => {
             },
         };
 
-        const response = await axiosInstance.head(`/api/colaborador/${id}/edit`, config);
+        const response = await axiosInstance.put(`/api/departamento/${id}`, data, config);
+        return response.data;                    
+    } catch (error) {
+        console.log('[ERROR] >', error);
+    }
+};
+
+export const EliminarDepartamento = async (id) => {
+    try {
+        const storedData = reactLocalStorage.getObject('var');
+        const accessToken = storedData.access_token;
+        const config = {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        };
+
+        const response = await axiosInstance.put(`/api/departamento/${id}/deteled_at`, {}, config);
+        return response.data;                    
+    } catch (error) {
+        console.log('[ERROR] >', error);
+    }
+};
+
+export const ObtenerIdDepartamento = async (id) => {
+    try {
+        const storedData = reactLocalStorage.getObject('var');
+        const accessToken = storedData.access_token;
+        const config = {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        };
+
+        const response = await axiosInstance.get('/api/{id}/departamento', config);
         return response.data;                    
     } catch (error) {
         console.log('[ERROR] >', error);
