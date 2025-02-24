@@ -14,7 +14,6 @@ import ModalForm from "./components/ModalForm";
 import "react-toastify/dist/ReactToastify.css";
 import ModalPreview from "./components/ModalPreview";
 import { reactLocalStorage } from "reactjs-localstorage";
-import * as XLSX from "xlsx";
 import { FaFileExcel } from "react-icons/fa";
 
 const customStyles = {
@@ -41,28 +40,6 @@ const Accesos = () => {
   const [selectedRow, setSelectedRow] = useState(null);
 
   const [faltanEgreso, setFaltanEgreso] = useState(0);
-
-  const exportToExcel = () => {
-    const formattedData = filteredData.map((row) => ({
-      "Nombre Completo": row.visitante.nombre_completo,
-      "Cui / Pasaporte": row.visitante.es_extranjero
-        ? row.visitante.pasaporte
-        : row.visitante.cui,
-      "Fecha Ingreso": row.fecha_ingreso
-        ? `${row.fecha_ingreso} ${row.hora_ingreso}`
-        : "",
-      "Fecha Egreso": row.fecha_egreso
-        ? `${row.fecha_egreso} ${row.hora_egreso}`
-        : "",
-      "Es extranjero?": row.visitante.es_extranjero,
-    }));
-
-    const ws = XLSX.utils.json_to_sheet(formattedData);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Visitas");
-
-    XLSX.writeFile(wb, "reporte_visitas.xlsx");
-  };
 
   useEffect(() => {
     fetchData();
@@ -274,7 +251,6 @@ const Accesos = () => {
             subHeaderComponent={
               <>
                 <FaFileExcel
-                  onClick={exportToExcel}
                   style={{
                     cursor: "pointer",
                     marginRight: "10px",

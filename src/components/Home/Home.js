@@ -12,7 +12,6 @@ import Loading from "../Loading";
 import "react-toastify/dist/ReactToastify.css";
 import { useLocation } from "react-router-dom";
 import moment from "moment/moment";
-import * as XLSX from "xlsx";
 import { FaFileExcel } from "react-icons/fa";
 
 const Home = () => {
@@ -22,33 +21,13 @@ const Home = () => {
   const [searchText, setSearchText] = useState("");
   const location = useLocation();
   const today = moment().format("YYYY-MM-DD");
-  const [loading, setLoading] = useState(true); // Estado de carga
+  const [loading, setLoading] = useState(true);
 
   const [faltanIngreso, setFaltanIngreso] = useState(0);
   const [faltanEgreso, setFaltanEgreso] = useState(0);
 
-  const exportToExcel = () => {
-    const formattedData = filteredData.map((row) => ({
-      "Nombre Completo": row.colaborador.nombre,
-      Apellido: row.colaborador.apellido,
-      "Tipo Colaborador": row.colaborador.tipo_colaborador,
-      "Fecha Ingreso": row.fecha_ingreso
-        ? `${row.fecha_ingreso} ${row.hora_ingreso}`
-        : "",
-      "Fecha Egreso": row.fecha_egreso
-        ? `${row.fecha_egreso} ${row.hora_egreso}`
-        : "",
-    }));
-
-    const ws = XLSX.utils.json_to_sheet(formattedData);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Asistencias");
-
-    XLSX.writeFile(wb, "reporte_asistencias.xlsx");
-  };
-
   useEffect(() => {
-    if (loading) return; // Solo filtra si no está cargando
+    if (loading) return;
     const filtered = data.filter((row) => {
       const nombreCompleto = row.colaborador.nombre ? row.colaborador.nombre.toLowerCase() : '';
       const apellido = row.colaborador.apellido ? row.colaborador.apellido.toLowerCase() : '';
@@ -65,7 +44,7 @@ const Home = () => {
   }, [searchText, data, loading]); 
   const fetchData = async () => {
     try {
-      setLoading(true); // Indicamos que la carga está en proceso
+      setLoading(true);
       const response = await getAsistenciaHoy();
       setData(response.data);
       setFilteredData(response.data);
@@ -79,7 +58,7 @@ const Home = () => {
     } catch (error) {
       console.error("Error al obtener las asistencias:", error);
     } finally {
-      setLoading(false); // Desactivamos el estado de carga
+      setLoading(false);
     }
   };
 
@@ -273,7 +252,6 @@ const Home = () => {
           subHeader
           subHeaderComponent={
             <><FaFileExcel
-              onClick={exportToExcel}
               style={{
                 cursor: "pointer",
                 marginRight: "10px",

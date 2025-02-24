@@ -12,7 +12,6 @@ import {
 import AgregarColaborador from "./components/AgregarColaborador";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import * as XLSX from "xlsx";
 import { FaFileExcel } from "react-icons/fa";
 
 const Colaborador = () => {
@@ -21,24 +20,6 @@ const Colaborador = () => {
   const [searchText, setSearchText] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [selectedColaborador, setSelectedColaborador] = useState(null);
-
-    const exportToExcel = () => {
-      const formattedData = filteredData.map((row) => ({
-        "Nombre Completo": row.nombre,
-        "Apellido": row.apellido,
-        "Telefono": row.telefono,
-        "Departamento": row.departamento.nombre,
-        "Correo Electronico": row.email,
-        "Dirección" : row.direccion,
-        "Tipo_colaborador" : row.tipo_colaborador
-      }));
-  
-      const ws = XLSX.utils.json_to_sheet(formattedData);
-      const wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, "Colaboradores");
-  
-      XLSX.writeFile(wb, "reporte_colaboradores.xlsx");
-    };
 
   useEffect(() => {
     fetchData();
@@ -314,7 +295,6 @@ const Colaborador = () => {
             subHeaderComponent={
               <>
                 <FaFileExcel
-                  onClick={exportToExcel}
                   style={{
                     cursor: "pointer",
                     marginRight: "10px",

@@ -5,10 +5,8 @@
   "dependencies": {
     "axios": "^1.7.9",
     "bootstrap": "^5.3.3",
-    "cra-template": "1.2.0",
     "dotenv": "^16.4.7",
     "framer-motion": "^12.4.2",
-    "html2canvas": "^1.4.1",
     "moment": "^2.30.1",
     "react": "^19.0.0",
     "react-bootstrap": "^2.10.9",
@@ -19,8 +17,7 @@
     "react-scripts": "5.0.1",
     "react-spinners": "^0.15.0",
     "react-toastify": "^11.0.3",
-    "reactjs-localstorage": "^1.0.1",
-    "xlsx": "^0.18.5"
+    "reactjs-localstorage": "^1.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
