@@ -107,7 +107,7 @@ const Home = () => {
 
     setFaltanIngreso(ingresoPendiente);
     setFaltanEgreso(egresoPendiente);
-  }, [filteredData]);
+  }, [filteredData, today]);
 
   const handleAsistencia = async (row, tipo) => {
     setLoadingAccion(row.id);
