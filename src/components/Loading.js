@@ -1,18 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { BounceLoader } from "react-spinners";
-import { motion } from "framer-motion";
+import { Fade } from "react-bootstrap";
 
 const Loading = () => {
+  const [show, setShow] = useState(true);
+
   return (
-    <motion.div
-      style={styles.overlay}
-      initial={{ y: "-100%" }}
-      animate={{ y: 0 }}
-      exit={{ y: "-100%" }}
-      transition={{ duration: 0.5 }}
-    >
-      <BounceLoader color="#17c3a2" size={60} speedMultiplier={2} />
-    </motion.div>
+    <Fade in={show}>
+      <div style={styles.overlay}>
+        <BounceLoader color="#17c3a2" size={60} speedMultiplier={2} />
+      </div>
+    </Fade>
   );
 };
 
